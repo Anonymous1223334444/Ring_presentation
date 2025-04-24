@@ -1,107 +1,142 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Wait for impress.js to initialize
+    // Vérifier que D3.js est correctement chargé
+    if (typeof d3 === 'undefined') {
+        console.error("D3.js n'est pas chargé. Les graphiques ne seront pas affichés.");
+        return;
+    }
+
+    // Attendre un peu plus longtemps pour s'assurer que impress.js est initialisé
     setTimeout(function() {
-        initCharts();
-    }, 1000);
+        try {
+            initCharts();
+        } catch (error) {
+            console.error("Erreur lors de l'initialisation des graphiques:", error);
+        }
+    }, 1500);
     
-    // Track slide changes to reinitialize charts when needed
+    // Suivre les changements de diapositive pour réinitialiser les graphiques si nécessaire
     document.addEventListener('impress:stepenter', function(event) {
         const currentSlide = event.target;
         
-        // Check if current slide contains charts and reinitialize them
+        // Vérifier si la diapositive courante contient des graphiques et les réinitialiser
         if (currentSlide.querySelectorAll('.chart-container').length > 0) {
-            initCharts();
+            try {
+                initCharts();
+            } catch (error) {
+                console.error("Erreur lors de la réinitialisation des graphiques:", error);
+            }
         }
     });
     
-    // Initialize all charts based on their container IDs
+    // Initialiser tous les graphiques en fonction de leurs identifiants de conteneur
     function initCharts() {
-        // Results chart
+        // Graphique des résultats
         if (document.getElementById('results-chart')) {
-            createResultsBarChart();
+            try {
+                createResultsBarChart();
+            } catch (error) {
+                console.error("Erreur lors de la création du graphique des résultats:", error);
+            }
         }
         
-        // Evaluation flow chart
+        // Graphique de flux d'évaluation
         if (document.getElementById('evaluation-flow-chart')) {
-            createEvaluationFlowChart();
+            try {
+                createEvaluationFlowChart();
+            } catch (error) {
+                console.error("Erreur lors de la création du graphique de flux d'évaluation:", error);
+            }
         }
         
-        // Metrics radar chart
+        // Graphique radar des métriques
         if (document.getElementById('metrics-radar-chart')) {
-            createMetricsRadarChart();
+            try {
+                createMetricsRadarChart();
+            } catch (error) {
+                console.error("Erreur lors de la création du graphique radar des métriques:", error);
+            }
         }
         
-        // Pipeline flowchart
+        // Diagramme de flux du pipeline
         if (document.getElementById('pipeline-flowchart')) {
-            createPipelineFlowchart();
+            try {
+                createPipelineFlowchart();
+            } catch (error) {
+                console.error("Erreur lors de la création du diagramme de flux du pipeline:", error);
+            }
         }
         
-        // Gain chart
+        // Graphique de gain
         if (document.getElementById('gain-chart')) {
-            createGainChart();
+            try {
+                createGainChart();
+            } catch (error) {
+                console.error("Erreur lors de la création du graphique de gain:", error);
+            }
         }
     }
     
-    // Results bar chart - shows comparative performance
+    // Graphique à barres des résultats - montre les performances comparatives
     function createResultsBarChart() {
         const container = document.getElementById('results-chart');
+        if (!container) return;
         
-        // Clear previous chart if any
+        // Effacer le graphique précédent s'il y en a un
         container.innerHTML = '';
         
-        // Chart dimensions
+        // Dimensions du graphique
         const width = container.clientWidth;
         const height = container.clientHeight;
         const margin = { top: 40, right: 20, bottom: 40, left: 40 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         
-        // Data for the chart
+        // Données pour le graphique
         const data = [
             { category: "Texte", value: 0.702, color: "#10b981" },
             { category: "Tableaux", value: 0.456, color: "#ef4444" },
             { category: "Graphiques", value: 0.540, color: "#f59e0b" }
         ];
         
-        // Create SVG
+        // Créer SVG
         const svg = d3.select("#results-chart")
             .append("svg")
             .attr("width", width)
             .attr("height", height);
         
-        // Create a group for the chart content
+        // Créer un groupe pour le contenu du graphique
         const g = svg.append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
         
-        // X scale
+        // Échelle X
         const x = d3.scaleBand()
             .domain(data.map(d => d.category))
             .range([0, innerWidth])
             .padding(0.4);
         
-        // Y scale
+        // Échelle Y
         const y = d3.scaleLinear()
             .domain([0, 1])
             .range([innerHeight, 0]);
         
-        // Add X axis
+        // Ajouter l'axe X
         g.append("g")
             .attr("transform", `translate(0, ${innerHeight})`)
             .call(d3.axisBottom(x))
             .selectAll("text")
             .attr("fill", "#ddd")
-            .style("font-size", "12px");
+            .style("font-size", "14px");
         
-        // Add Y axis
+        // Ajouter l'axe Y
         g.append("g")
             .call(d3.axisLeft(y)
                 .ticks(5)
                 .tickFormat(d3.format(".1f")))
             .selectAll("text")
             .attr("fill", "#ddd")
-            .style("font-size", "12px");
+            .style("font-size", "14px");
         
-        // Add grid lines
+        // Ajouter des lignes de grille
         g.append("g")
             .attr("class", "grid")
             .call(d3.axisLeft(y)
@@ -111,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .selectAll("line")
             .attr("stroke", "rgba(255, 255, 255, 0.1)");
         
-        // Create bars - animated
-        g.selectAll(".bar")
+        // Créer des barres - animées
+        const bars = g.selectAll(".bar")
             .data(data)
             .enter()
             .append("rect")
@@ -123,15 +158,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("height", 0)
             .attr("fill", d => d.color)
             .attr("rx", 5)
-            .attr("ry", 5)
-            .transition()
+            .attr("ry", 5);
+            
+        bars.transition()
             .duration(1000)
             .delay((d, i) => i * 200)
             .attr("y", d => y(d.value))
             .attr("height", d => innerHeight - y(d.value));
         
-        // Add values above bars
-        g.selectAll(".value")
+        // Ajouter des valeurs au-dessus des barres
+        const valueTexts = g.selectAll(".value")
             .data(data)
             .enter()
             .append("text")
@@ -140,60 +176,56 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("y", d => y(d.value) - 10)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "14px")
+            .style("font-size", "16px")
             .style("font-weight", "bold")
             .style("opacity", 0)
-            .text(d => (d.value * 100).toFixed(1) + "%")
-            .transition()
+            .text(d => (d.value * 100).toFixed(1) + "%");
+            
+        valueTexts.transition()
             .duration(1000)
             .delay((d, i) => 200 + i * 200)
             .style("opacity", 1);
         
-        // Add title
+        // Ajouter un titre
         svg.append("text")
             .attr("x", width / 2)
             .attr("y", 20)
             .attr("text-anchor", "middle")
             .attr("fill", "#ddd")
-            .style("font-size", "14px")
-            .text("Performance globale par type de structure");
+            .style("font-size", "18px")
+            .text("Performance par type de structure");
     }
 
-    // Evaluation flow chart - simplified flowchart
+    // Graphique de flux d'évaluation - diagramme de flux simplifié
     function createEvaluationFlowChart() {
         const container = document.getElementById('evaluation-flow-chart');
+        if (!container) return;
+        
         container.innerHTML = '';
         
-        // Data structure for the flow chart
+        // Structure de données pour le diagramme de flux
         const nodes = [
-            { id: "question", label: "Question", x: 100, y: 30, class: "question" },
-            { id: "retriever", label: "Recherche contextuelle", x: 100, y: 80, class: "process" },
-            { id: "documents", label: "Documents pertinents", x: 100, y: 130, class: "data" },
-            { id: "generation", label: "Génération de réponse", x: 100, y: 180, class: "process" },
-            { id: "answer", label: "Réponse générée", x: 100, y: 230, class: "result" },
-            { id: "reference", label: "Référence", x: 220, y: 130, class: "data" },
-            { id: "evaluation", label: "Évaluation", x: 160, y: 280, class: "process" },
-            { id: "metrics", label: "Métriques calculées", x: 160, y: 330, class: "result" }
+            { id: "question", label: "Question", x: 100, y: 40, class: "question" },
+            { id: "retriever", label: "Recherche", x: 100, y: 100, class: "process" },
+            { id: "documents", label: "Documents", x: 100, y: 160, class: "data" },
+            { id: "generation", label: "Génération", x: 100, y: 220, class: "process" },
+            { id: "answer", label: "Réponse", x: 100, y: 280, class: "result" }
         ];
         
         const links = [
             { source: "question", target: "retriever" },
             { source: "retriever", target: "documents" },
             { source: "documents", target: "generation" },
-            { source: "generation", target: "answer" },
-            { source: "answer", target: "evaluation" },
-            { source: "question", target: "reference", curved: true },
-            { source: "reference", target: "evaluation", curved: true },
-            { source: "evaluation", target: "metrics" }
+            { source: "generation", target: "answer" }
         ];
         
-        // Create SVG
+        // Créer SVG
         const svg = d3.select("#evaluation-flow-chart")
             .append("svg")
             .attr("width", container.clientWidth)
             .attr("height", container.clientHeight);
         
-        // Define node colors
+        // Définir les couleurs des nœuds
         const nodeColors = {
             question: "#f97316",
             process: "#8b5cf6",
@@ -201,92 +233,81 @@ document.addEventListener('DOMContentLoaded', function() {
             result: "#3b82f6"
         };
         
-        // Draw links
+        // Dessiner les liens
         links.forEach((link, index) => {
+            const sourceNode = nodes.find(n => n.id === link.source);
+            const targetNode = nodes.find(n => n.id === link.target);
+            
+            if (!sourceNode || !targetNode) return;
+            
+            const lineElement = svg.append("line")
+                .attr("x1", sourceNode.x)
+                .attr("y1", sourceNode.y)
+                .attr("x2", sourceNode.x)
+                .attr("y2", sourceNode.y)
+                .attr("stroke", "#64748b")
+                .attr("stroke-width", 2);
+            
             setTimeout(() => {
-                if (link.curved) {
-                    // Create curved path
-                    const sourceNode = nodes.find(n => n.id === link.source);
-                    const targetNode = nodes.find(n => n.id === link.target);
-                    
-                    // Control point for the curve
-                    const cpX = (sourceNode.x + targetNode.x) / 2 + 50;
-                    const cpY = (sourceNode.y + targetNode.y) / 2;
-                    
-                    const path = `M${sourceNode.x},${sourceNode.y} Q${cpX},${cpY} ${targetNode.x},${targetNode.y}`;
-                    
-                    svg.append("path")
-                        .attr("d", path)
-                        .attr("fill", "none")
-                        .attr("stroke", "#64748b")
-                        .attr("stroke-width", 1.5)
-                        .attr("opacity", 0)
-                        .transition()
-                        .duration(500)
-                        .attr("opacity", 1);
-                } else {
-                    // Create straight path
-                    const sourceNode = nodes.find(n => n.id === link.source);
-                    const targetNode = nodes.find(n => n.id === link.target);
-                    
-                    svg.append("line")
-                        .attr("x1", sourceNode.x)
-                        .attr("y1", sourceNode.y)
-                        .attr("x2", sourceNode.x)
-                        .attr("y2", sourceNode.y)
-                        .attr("stroke", "#64748b")
-                        .attr("stroke-width", 1.5)
-                        .transition()
-                        .duration(500)
-                        .attr("x2", targetNode.x)
-                        .attr("y2", targetNode.y);
-                }
+                lineElement.transition()
+                    .duration(500)
+                    .attr("x2", targetNode.x)
+                    .attr("y2", targetNode.y);
             }, index * 200);
         });
         
-        // Draw nodes
+        // Dessiner les nœuds
         nodes.forEach((node, index) => {
             setTimeout(() => {
-                const g = svg.append("g")
+                // Créer un groupe pour le nœud courant
+                const nodeGroup = svg.append("g")
                     .attr("transform", `translate(${node.x}, ${node.y})`)
-                    .attr("opacity", 0)
-                    .transition()
-                    .duration(500)
-                    .attr("opacity", 1);
+                    .attr("opacity", 0);
                 
-                g.append("circle")
+                // Ajouter un cercle
+                nodeGroup.append("circle")
                     .attr("r", 0)
-                    .attr("fill", nodeColors[node.class])
-                    .transition()
-                    .duration(300)
-                    .attr("r", 20);
+                    .attr("fill", nodeColors[node.class]);
                 
-                g.append("text")
+                // Ajouter du texte
+                nodeGroup.append("text")
                     .attr("x", 30)
                     .attr("y", 5)
                     .attr("fill", "#ddd")
-                    .style("font-size", "10px")
+                    .style("font-size", "16px")
                     .text(node.label);
+                
+                // Animer l'apparition
+                nodeGroup.transition()
+                    .duration(300)
+                    .attr("opacity", 1);
+                
+                nodeGroup.select("circle")
+                    .transition()
+                    .duration(500)
+                    .attr("r", 20);
             }, 1000 + index * 150);
         });
     }
     
-    // Metrics radar chart
+    // Graphique radar des métriques
     function createMetricsRadarChart() {
         const container = document.getElementById('metrics-radar-chart');
+        if (!container) return;
+        
         container.innerHTML = '';
         
         const width = container.clientWidth;
         const height = container.clientHeight;
         const margin = { top: 50, right: 50, bottom: 50, left: 50 };
         
-        // Data
-        const metrics = ["BLEU", "ROUGE", "Exact Match", "Relevance"];
-        const textValues = [0.473, 0.752, 0.703, 0.830];
-        const tableValues = [0.433, 0.574, 0.233, 0.750];
-        const graphValues = [0.403, 0.585, 0.420, 0.774];
+        // Données simplifiées pour meilleure lisibilité
+        const metrics = ["BLEU", "ROUGE", "Relevance"];
+        const textValues = [0.473, 0.752, 0.830];
+        const tableValues = [0.433, 0.574, 0.750];
+        const graphValues = [0.403, 0.585, 0.774];
         
-        // SVG setup
+        // Configuration SVG
         const svg = d3.select("#metrics-radar-chart")
             .append("svg")
             .attr("width", width)
@@ -295,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const g = svg.append("g")
             .attr("transform", `translate(${width/2}, ${height/2})`);
         
-        // Scales
+        // Échelles
         const radialScale = d3.scaleLinear()
             .domain([0, 1])
             .range([0, Math.min(width, height)/2 - margin.top]);
@@ -305,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .range([0, 2 * Math.PI])
             .padding(0.5);
         
-        // Draw axis lines
+        // Dessiner les lignes d'axe
         metrics.forEach(metric => {
             const angle = angleScale(metric);
             const lineX = radialScale(1) * Math.sin(angle);
@@ -319,17 +340,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 .attr("stroke", "rgba(255, 255, 255, 0.2)")
                 .attr("stroke-width", 1);
             
-            // Add metric label
+            // Ajouter une étiquette de métrique
             g.append("text")
                 .attr("x", lineX * 1.1)
                 .attr("y", lineY * 1.1)
                 .attr("text-anchor", "middle")
                 .attr("fill", "#ddd")
-                .style("font-size", "10px")
+                .style("font-size", "16px")
                 .text(metric);
         });
         
-        // Draw circles for the scale
+        // Dessiner des cercles pour l'échelle
         [0.25, 0.5, 0.75, 1].forEach(value => {
             g.append("circle")
                 .attr("cx", 0)
@@ -339,27 +360,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 .attr("stroke", "rgba(255, 255, 255, 0.1)")
                 .attr("stroke-width", 1);
             
-            // Add label for scale
+            // Ajouter une étiquette pour l'échelle
             g.append("text")
                 .attr("x", 5)
                 .attr("y", -radialScale(value))
                 .attr("text-anchor", "middle")
                 .attr("fill", "#ddd")
-                .style("font-size", "8px")
+                .style("font-size", "12px")
                 .text(value.toString());
         });
         
-        // Helper function to generate polygon points
-        function generatePolygonPoints(values) {
-            return values.map((value, i) => {
-                const angle = angleScale(metrics[i]);
-                const x = radialScale(value) * Math.sin(angle);
-                const y = -radialScale(value) * Math.cos(angle);
-                return [x, y];
-            }).join(" ");
-        }
-        
-        // Draw the polygons for each data series
+        // Fonction pour dessiner le polygone
         function drawPolygon(values, color, delay) {
             const points = values.map((value, i) => {
                 const angle = angleScale(metrics[i]);
@@ -369,13 +380,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 ];
             });
             
-            // Draw dots at each data point
+            // Conserver une référence au groupe D3
+            const currentG = g;
+            
+            // Dessiner des points à chaque point de données
             points.forEach((point, i) => {
                 setTimeout(() => {
-                    g.append("circle")
+                    // Utiliser la référence conservée
+                    currentG.append("circle")
                         .attr("cx", point[0])
                         .attr("cy", point[1])
-                        .attr("r", 4)
+                        .attr("r", 6)
                         .attr("fill", color)
                         .attr("opacity", 0)
                         .transition()
@@ -384,40 +399,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, delay + i * 200);
             });
             
-            // Create the polygon path with animation
+            // Créer le chemin du polygone avec animation
             const lineFunction = d3.line();
             
-            const path = g.append("path")
+            const path = currentG.append("path")
                 .attr("d", lineFunction(points))
                 .attr("fill", "none")
                 .attr("stroke", color)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", 3)
                 .attr("opacity", 0);
                 
-            path.transition()
-                .delay(delay + 800)
-                .duration(500)
-                .attr("opacity", 0.6);
-                
-            // Add fill with animation
-            g.append("polygon")
+            setTimeout(() => {
+                path.transition()
+                    .duration(500)
+                    .attr("opacity", 0.6);
+            }, delay + 800);
+            
+            // Ajouter un remplissage avec animation
+            const polygon = currentG.append("polygon")
                 .attr("points", points.map(p => p.join(",")).join(" "))
                 .attr("fill", color)
-                .attr("opacity", 0)
-                .transition()
-                .delay(delay + 1000)
-                .duration(500)
-                .attr("opacity", 0.2);
+                .attr("opacity", 0);
+                
+            setTimeout(() => {
+                polygon.transition()
+                    .duration(500)
+                    .attr("opacity", 0.2);
+            }, delay + 1000);
         }
         
-        // Draw with delays for animation
+        // Dessiner avec des délais pour l'animation
         drawPolygon(textValues, "#10b981", 500);
         drawPolygon(tableValues, "#ef4444", 1500);
         drawPolygon(graphValues, "#f59e0b", 2500);
         
-        // Add legend
+        // Ajouter une légende
         const legend = svg.append("g")
-            .attr("transform", `translate(${width - 100}, 20)`);
+            .attr("transform", `translate(${width - 120}, 30)`);
         
         const legendItems = [
             { label: "Texte", color: "#10b981" },
@@ -426,86 +444,69 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
         
         legendItems.forEach((item, i) => {
-            const g = legend.append("g")
-                .attr("transform", `translate(0, ${i * 20})`)
-                .attr("opacity", 0)
-                .transition()
-                .delay(3500 + i * 200)
-                .duration(300)
-                .attr("opacity", 1);
-            
-            g.append("rect")
-                .attr("width", 10)
-                .attr("height", 10)
+            const legendGroup = legend.append("g")
+                .attr("transform", `translate(0, ${i * 25})`)
+                .attr("opacity", 0);
+                
+            legendGroup.append("rect")
+                .attr("width", 15)
+                .attr("height", 15)
                 .attr("fill", item.color);
-            
-            g.append("text")
-                .attr("x", 15)
-                .attr("y", 9)
+                
+            legendGroup.append("text")
+                .attr("x", 25)
+                .attr("y", 12)
                 .attr("fill", "#ddd")
-                .style("font-size", "10px")
+                .style("font-size", "14px")
                 .text(item.label);
+                
+            setTimeout(() => {
+                legendGroup.transition()
+                    .duration(300)
+                    .attr("opacity", 1);
+            }, 3500 + i * 200);
         });
-        
-        // Add title
-        svg.append("text")
-            .attr("x", width / 2)
-            .attr("y", 20)
-            .attr("text-anchor", "middle")
-            .attr("fill", "#ddd")
-            .style("font-size", "14px")
-            .text("Comparaison des métriques par type de structure");
     }
     
-    // Pipeline flowchart
+    // Diagramme de flux du pipeline
     function createPipelineFlowchart() {
         const container = document.getElementById('pipeline-flowchart');
+        if (!container) return;
+        
         container.innerHTML = '';
         
-        // Create SVG
+        // Créer SVG
         const svg = d3.select("#pipeline-flowchart")
             .append("svg")
             .attr("width", container.clientWidth)
             .attr("height", container.clientHeight);
         
-        // Define the nodes
+        // Définir les nœuds (simplifié pour lisibilité)
         const nodes = [
-            { id: "input", label: "Documents multimodaux", x: 150, y: 30, class: "document" },
-            { id: "extraction", label: "Extraction par type", x: 150, y: 70, class: "process" },
-            { id: "text", label: "Texte", x: 80, y: 110, class: "text" },
-            { id: "tables", label: "Tableaux", x: 150, y: 110, class: "table" },
-            { id: "images", label: "Images", x: 220, y: 110, class: "image" },
-            { id: "chunking", label: "Chunking sémantique", x: 80, y: 150, class: "text" },
-            { id: "structure", label: "Préservation structure", x: 150, y: 150, class: "table" },
-            { id: "captions", label: "Analyse légendes", x: 220, y: 150, class: "image" },
-            { id: "textEmbed", label: "Embeddings texte", x: 80, y: 190, class: "text" },
-            { id: "tableEmbed", label: "Embeddings tableaux", x: 150, y: 190, class: "table" },
-            { id: "imageEmbed", label: "Embeddings images", x: 220, y: 190, class: "image" },
-            { id: "vector", label: "Vectorisation adaptative", x: 150, y: 230, class: "process" },
-            { id: "database", label: "Base vectorielle", x: 150, y: 270, class: "database" },
-            { id: "rag", label: "Système RAG", x: 150, y: 310, class: "process" }
+            { id: "input", label: "Documents", x: 150, y: 30, class: "document" },
+            { id: "extraction", label: "Extraction", x: 150, y: 80, class: "process" },
+            { id: "text", label: "Texte", x: 70, y: 130, class: "text" },
+            { id: "tables", label: "Tableaux", x: 150, y: 130, class: "table" },
+            { id: "images", label: "Images", x: 230, y: 130, class: "image" },
+            { id: "embedding", label: "Embeddings", x: 150, y: 180, class: "process" },
+            { id: "database", label: "Base vectorielle", x: 150, y: 230, class: "database" },
+            { id: "rag", label: "Système RAG", x: 150, y: 280, class: "process" }
         ];
         
-        // Define the links between nodes
+        // Définir les liens entre les nœuds
         const links = [
             { source: "input", target: "extraction" },
             { source: "extraction", target: "text" },
             { source: "extraction", target: "tables" },
             { source: "extraction", target: "images" },
-            { source: "text", target: "chunking" },
-            { source: "tables", target: "structure" },
-            { source: "images", target: "captions" },
-            { source: "chunking", target: "textEmbed" },
-            { source: "structure", target: "tableEmbed" },
-            { source: "captions", target: "imageEmbed" },
-            { source: "textEmbed", target: "vector" },
-            { source: "tableEmbed", target: "vector" },
-            { source: "imageEmbed", target: "vector" },
-            { source: "vector", target: "database" },
+            { source: "text", target: "embedding" },
+            { source: "tables", target: "embedding" },
+            { source: "images", target: "embedding" },
+            { source: "embedding", target: "database" },
             { source: "database", target: "rag" }
         ];
         
-        // Node colors
+        // Couleurs des nœuds
         const nodeColors = {
             document: "#f97316",
             process: "#0ea5e9",
@@ -515,116 +516,123 @@ document.addEventListener('DOMContentLoaded', function() {
             database: "#3b82f6"
         };
         
-        // Draw the links
+        // Dessiner les liens
         links.forEach((link, index) => {
+            const sourceNode = nodes.find(n => n.id === link.source);
+            const targetNode = nodes.find(n => n.id === link.target);
+            
+            if (!sourceNode || !targetNode) return;
+            
+            const lineElement = svg.append("line")
+                .attr("x1", sourceNode.x)
+                .attr("y1", sourceNode.y)
+                .attr("x2", sourceNode.x)
+                .attr("y2", sourceNode.y)
+                .attr("stroke", "#64748b")
+                .attr("stroke-width", 2);
+            
             setTimeout(() => {
-                const sourceNode = nodes.find(n => n.id === link.source);
-                const targetNode = nodes.find(n => n.id === link.target);
-                
-                svg.append("line")
-                    .attr("x1", sourceNode.x)
-                    .attr("y1", sourceNode.y)
-                    .attr("x2", sourceNode.x)
-                    .attr("y2", sourceNode.y)
-                    .attr("stroke", "#64748b")
-                    .attr("stroke-width", 1.5)
-                    .transition()
+                lineElement.transition()
                     .duration(300)
                     .attr("x2", targetNode.x)
                     .attr("y2", targetNode.y);
             }, index * 100);
         });
         
-        // Draw the nodes
+        // Dessiner les nœuds
         nodes.forEach((node, index) => {
             setTimeout(() => {
-                const g = svg.append("g")
+                // Créer un groupe pour le nœud courant
+                const nodeGroup = svg.append("g")
                     .attr("transform", `translate(${node.x}, ${node.y})`)
-                    .attr("opacity", 0)
-                    .transition()
-                    .duration(300)
-                    .attr("opacity", 1);
+                    .attr("opacity", 0);
                 
-                g.append("rect")
-                    .attr("x", -40)
-                    .attr("y", -10)
-                    .attr("width", 80)
-                    .attr("height", 20)
+                // Ajouter un rectangle
+                nodeGroup.append("rect")
+                    .attr("x", -50)
+                    .attr("y", -15)
+                    .attr("width", 100)
+                    .attr("height", 30)
                     .attr("rx", 5)
                     .attr("ry", 5)
                     .attr("fill", nodeColors[node.class]);
                 
-                g.append("text")
+                // Ajouter du texte
+                nodeGroup.append("text")
                     .attr("text-anchor", "middle")
                     .attr("dominant-baseline", "middle")
                     .attr("fill", "white")
-                    .style("font-size", "8px")
+                    .style("font-size", "14px")
                     .text(node.label);
-            }, 1500 + index * 100);
+                
+                // Animer l'apparition
+                nodeGroup.transition()
+                    .duration(300)
+                    .attr("opacity", 1);
+            }, 1000 + index * 100);
         });
     }
     
-    // Gain chart
+    // Graphique de gain (améliorations)
     function createGainChart() {
         const container = document.getElementById('gain-chart');
+        if (!container) return;
+        
         container.innerHTML = '';
         
-        // Chart dimensions
+        // Dimensions du graphique
         const width = container.clientWidth;
         const height = container.clientHeight;
         const margin = { top: 40, right: 20, bottom: 50, left: 40 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
         
-        // Data for the chart
+        // Données pour le graphique (simplifié)
         const data = [
             { metric: "Pertinence", standard: 0.65, multimodal: 0.83, gain: 28 },
-            { metric: "Précision tableau", standard: 0.23, multimodal: 0.61, gain: 165 },
-            { metric: "Compréhension graph.", standard: 0.54, multimodal: 0.75, gain: 39 },
-            { metric: "Performance glob.", standard: 0.47, multimodal: 0.73, gain: 55 }
+            { metric: "Précision", standard: 0.23, multimodal: 0.61, gain: 165 },
+            { metric: "Global", standard: 0.47, multimodal: 0.73, gain: 55 }
         ];
         
-        // Create SVG
+        // Créer SVG
         const svg = d3.select("#gain-chart")
             .append("svg")
             .attr("width", width)
             .attr("height", height);
         
-        // Create a group for the chart content
+        // Créer un groupe pour le contenu du graphique
         const g = svg.append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
         
-        // X scale
+        // Échelle X
         const x = d3.scaleBand()
             .domain(data.map(d => d.metric))
             .range([0, innerWidth])
             .padding(0.3);
         
-        // Y scale
+        // Échelle Y
         const y = d3.scaleLinear()
             .domain([0, 1])
             .range([innerHeight, 0]);
         
-        // Add X axis
+        // Ajouter l'axe X
         g.append("g")
             .attr("transform", `translate(0, ${innerHeight})`)
             .call(d3.axisBottom(x))
             .selectAll("text")
             .attr("fill", "#ddd")
-            .style("font-size", "10px")
-            .attr("transform", "rotate(-15)")
-            .attr("text-anchor", "end");
+            .style("font-size", "14px");
         
-        // Add Y axis
+        // Ajouter l'axe Y
         g.append("g")
             .call(d3.axisLeft(y)
                 .ticks(5)
                 .tickFormat(d3.format(".1f")))
             .selectAll("text")
             .attr("fill", "#ddd")
-            .style("font-size", "10px");
+            .style("font-size", "14px");
         
-        // Add grid lines
+        // Ajouter des lignes de grille
         g.append("g")
             .attr("class", "grid")
             .call(d3.axisLeft(y)
@@ -634,8 +642,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .selectAll("line")
             .attr("stroke", "rgba(255, 255, 255, 0.1)");
         
-        // Draw standard bars
-        g.selectAll(".standard-bar")
+        // Dessiner les barres standard
+        const standardBars = g.selectAll(".standard-bar")
             .data(data)
             .enter()
             .append("rect")
@@ -644,14 +652,15 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("y", innerHeight)
             .attr("width", x.bandwidth() / 2)
             .attr("height", 0)
-            .attr("fill", "#64748b")
-            .transition()
+            .attr("fill", "#64748b");
+            
+        standardBars.transition()
             .duration(800)
             .attr("y", d => y(d.standard))
             .attr("height", d => innerHeight - y(d.standard));
         
-        // Draw multimodal bars
-        g.selectAll(".multimodal-bar")
+        // Dessiner les barres multimodales
+        const multimodalBars = g.selectAll(".multimodal-bar")
             .data(data)
             .enter()
             .append("rect")
@@ -660,15 +669,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("y", innerHeight)
             .attr("width", x.bandwidth() / 2)
             .attr("height", 0)
-            .attr("fill", "#10b981")
-            .transition()
+            .attr("fill", "#10b981");
+            
+        multimodalBars.transition()
             .duration(800)
             .delay(400)
             .attr("y", d => y(d.multimodal))
             .attr("height", d => innerHeight - y(d.multimodal));
         
-        // Add gain percentage labels
-        g.selectAll(".gain-label")
+        // Ajouter des étiquettes de pourcentage de gain
+        const gainLabels = g.selectAll(".gain-label")
             .data(data)
             .enter()
             .append("text")
@@ -677,18 +687,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr("y", d => y(d.multimodal) - 10)
             .attr("text-anchor", "middle")
             .attr("fill", "#10b981")
-            .style("font-size", "12px")
+            .style("font-size", "16px")
             .style("font-weight", "bold")
             .style("opacity", 0)
-            .text(d => `+${d.gain}%`)
-            .transition()
-            .duration(500)
-            .delay(1200)
-            .style("opacity", 1);
+            .text(d => `+${d.gain}%`);
+            
+        setTimeout(() => {
+            gainLabels.transition()
+                .duration(500)
+                .style("opacity", 1);
+        }, 1200);
         
-        // Add legend
+        // Ajouter une légende
         const legend = svg.append("g")
-            .attr("transform", `translate(${width/2 - 100}, ${height - margin.bottom + 30})`);
+            .attr("transform", `translate(${width/2 - 120}, ${height - margin.bottom + 30})`);
         
         const legendItems = [
             { label: "Standard", color: "#64748b" },
@@ -696,34 +708,36 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
         
         legendItems.forEach((item, i) => {
-            const g = legend.append("g")
-                .attr("transform", `translate(${i * 120}, 0)`)
-                .attr("opacity", 0)
-                .transition()
-                .delay(1500)
-                .duration(300)
-                .attr("opacity", 1);
-            
-            g.append("rect")
-                .attr("width", 12)
-                .attr("height", 12)
+            const legendGroup = legend.append("g")
+                .attr("transform", `translate(${i * 140}, 0)`)
+                .attr("opacity", 0);
+                
+            legendGroup.append("rect")
+                .attr("width", 15)
+                .attr("height", 15)
                 .attr("fill", item.color);
-            
-            g.append("text")
-                .attr("x", 20)
-                .attr("y", 10)
+                
+            legendGroup.append("text")
+                .attr("x", 25)
+                .attr("y", 12)
                 .attr("fill", "#ddd")
-                .style("font-size", "12px")
+                .style("font-size", "14px")
                 .text(item.label);
+                
+            setTimeout(() => {
+                legendGroup.transition()
+                    .duration(300)
+                    .attr("opacity", 1);
+            }, 1500);
         });
         
-        // Add title
+        // Ajouter un titre
         svg.append("text")
             .attr("x", width / 2)
             .attr("y", 20)
             .attr("text-anchor", "middle")
             .attr("fill", "#ddd")
-            .style("font-size", "14px")
-            .text("Amélioration des performances avec l'approche multimodale");
+            .style("font-size", "18px")
+            .text("Amélioration avec l'approche multimodale");
     }
 });

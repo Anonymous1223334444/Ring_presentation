@@ -9,39 +9,228 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- D3.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-    <!-- Impress.js -->
-    <script src="https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js"></script>
 </head>
-<body class="dark-theme">
+<body>
+    <!-- Indicateur de chargement -->
+    <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+        <div style="text-align: center; color: #f97316;">
+            <h2>Chargement en cours...</h2>
+            <div class="loading-spinner"></div>
+            <p>Préparation de la présentation</p>
+        </div>
+    </div>
+
+    <!-- Barre de progression -->
     <div class="progress-bar">
         <div class="progress"></div>
     </div>
 
     <div id="impress">
-        <!-- Slide 1: Main Overview with Rings -->
+        <!-- Slide 1: Vue d'ensemble circulaire -->
         <div id="overview" class="step" data-x="0" data-y="0" data-scale="10">
-            <div class="rings-container">
-                <div class="main-ring">
-                    <h1>Évaluation du Système RAG</h1>
-                    <div class="subtitle">Performance comparative sur texte, tableaux et graphiques</div>
-                    
-                    <div class="sub-ring" id="text-ring" style="top: 30%; left: 20%">
-                        <span>Texte</span>
+            <div class="circle-container">
+                <!-- Grand cercle principal -->
+                <div class="main-circle">
+                    <!-- Contenu central -->
+                    <div class="circle-content">
+                        <img src="img/BackgroundWelcome.jpeg" alt="RAG System" id="central-image">
+                        <h1>Évaluation du Système RAG</h1>
+                        <div class="subtitle">Performance comparative</div>
+                        <div class="date">22 Avril 2025</div>
                     </div>
-                    
-                    <div class="sub-ring" id="table-ring" style="top: 50%; left: 70%">
-                        <span>Tableaux</span>
-                    </div>
-                    
-                    <div class="sub-ring" id="graph-ring" style="top: 65%; left: 30%">
-                        <span>Graphiques</span>
-                    </div>
-                    
-                    <div class="date">22 Avril 2025</div>
+                </div>
+
+                <!-- Petits cercles/icônes positionnés sur le grand cercle -->
+                <!-- Chaque icône représente un sous-thème et est positionnée avec une transformation CSS -->
+                
+                <!-- Groupe 1: Introduction et Fondamentaux (0-30 degrés) -->
+                <div class="circle-icon" style="--angle: 0deg;" data-target="intro" data-theme="Introduction">
+                    <div class="icon-content">I</div>
+                    <div class="icon-tooltip">Introduction</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 10deg;" data-target="objectives" data-theme="Objectifs">
+                    <div class="icon-content">O</div>
+                    <div class="icon-tooltip">Objectifs</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 20deg;" data-target="challenges" data-theme="Défis">
+                    <div class="icon-content">D</div>
+                    <div class="icon-tooltip">Défis</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 30deg;" data-target="methodology" data-theme="Méthodologie">
+                    <div class="icon-content">M</div>
+                    <div class="icon-tooltip">Méthodologie</div>
+                </div>
+                
+                <!-- Groupe 2: Types de données (40-90 degrés) -->
+                <div class="circle-icon" style="--angle: 40deg;" data-target="text-analysis" data-theme="Texte">
+                    <div class="icon-content">T</div>
+                    <div class="icon-tooltip">Texte</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 50deg;" data-target="table-analysis" data-theme="Tableaux">
+                    <div class="icon-content">TB</div>
+                    <div class="icon-tooltip">Tableaux</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 60deg;" data-target="graph-analysis" data-theme="Graphiques">
+                    <div class="icon-content">G</div>
+                    <div class="icon-tooltip">Graphiques</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 70deg;" data-target="image-analysis" data-theme="Images">
+                    <div class="icon-content">IM</div>
+                    <div class="icon-tooltip">Images</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 80deg;" data-target="multimodal" data-theme="Multimodal">
+                    <div class="icon-content">MM</div>
+                    <div class="icon-tooltip">Multimodal</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 90deg;" data-target="data-structure" data-theme="Structure">
+                    <div class="icon-content">S</div>
+                    <div class="icon-tooltip">Structure</div>
+                </div>
+                
+                <!-- Groupe 3: Évaluation et Métriques (100-150 degrés) -->
+                <div class="circle-icon" style="--angle: 100deg;" data-target="metrics" data-theme="Métriques">
+                    <div class="icon-content">MT</div>
+                    <div class="icon-tooltip">Métriques</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 110deg;" data-target="precision" data-theme="Précision">
+                    <div class="icon-content">P</div>
+                    <div class="icon-tooltip">Précision</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 120deg;" data-target="recall" data-theme="Rappel">
+                    <div class="icon-content">R</div>
+                    <div class="icon-tooltip">Rappel</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 130deg;" data-target="f1-score" data-theme="F1-Score">
+                    <div class="icon-content">F1</div>
+                    <div class="icon-tooltip">F1-Score</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 140deg;" data-target="bleu" data-theme="BLEU">
+                    <div class="icon-content">BL</div>
+                    <div class="icon-tooltip">BLEU</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 150deg;" data-target="rouge" data-theme="ROUGE">
+                    <div class="icon-content">RG</div>
+                    <div class="icon-tooltip">ROUGE</div>
+                </div>
+                
+                <!-- Groupe 4: Résultats et Analyse (160-210 degrés) -->
+                <div class="circle-icon" style="--angle: 160deg;" data-target="results" data-theme="Résultats">
+                    <div class="icon-content">RS</div>
+                    <div class="icon-tooltip">Résultats</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 170deg;" data-target="comparison" data-theme="Comparaison">
+                    <div class="icon-content">CP</div>
+                    <div class="icon-tooltip">Comparaison</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 180deg;" data-target="analysis" data-theme="Analyse">
+                    <div class="icon-content">A</div>
+                    <div class="icon-tooltip">Analyse</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 190deg;" data-target="insights" data-theme="Insights">
+                    <div class="icon-content">IN</div>
+                    <div class="icon-tooltip">Insights</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 200deg;" data-target="strengths" data-theme="Forces">
+                    <div class="icon-content">F</div>
+                    <div class="icon-tooltip">Forces</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 210deg;" data-target="weaknesses" data-theme="Faiblesses">
+                    <div class="icon-content">FB</div>
+                    <div class="icon-tooltip">Faiblesses</div>
+                </div>
+                
+                <!-- Groupe 5: Architecture et Technique (220-270 degrés) -->
+                <div class="circle-icon" style="--angle: 220deg;" data-target="architecture" data-theme="Architecture">
+                    <div class="icon-content">AR</div>
+                    <div class="icon-tooltip">Architecture</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 230deg;" data-target="vectorization" data-theme="Vectorisation">
+                    <div class="icon-content">V</div>
+                    <div class="icon-tooltip">Vectorisation</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 240deg;" data-target="embedding" data-theme="Embedding">
+                    <div class="icon-content">EM</div>
+                    <div class="icon-tooltip">Embedding</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 250deg;" data-target="retrieval" data-theme="Recherche">
+                    <div class="icon-content">RE</div>
+                    <div class="icon-tooltip">Recherche</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 260deg;" data-target="generation" data-theme="Génération">
+                    <div class="icon-content">GN</div>
+                    <div class="icon-tooltip">Génération</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 270deg;" data-target="pipeline" data-theme="Pipeline">
+                    <div class="icon-content">PI</div>
+                    <div class="icon-tooltip">Pipeline</div>
+                </div>
+                
+                <!-- Groupe 6: Améliorations et Perspectives (280-330 degrés) -->
+                <div class="circle-icon" style="--angle: 280deg;" data-target="benefits" data-theme="Bénéfices">
+                    <div class="icon-content">B</div>
+                    <div class="icon-tooltip">Bénéfices</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 290deg;" data-target="improvements" data-theme="Améliorations">
+                    <div class="icon-content">AM</div>
+                    <div class="icon-tooltip">Améliorations</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 300deg;" data-target="solutions" data-theme="Solutions">
+                    <div class="icon-content">SO</div>
+                    <div class="icon-tooltip">Solutions</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 310deg;" data-target="future" data-theme="Futur">
+                    <div class="icon-content">FU</div>
+                    <div class="icon-tooltip">Futur</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 320deg;" data-target="research" data-theme="Recherche">
+                    <div class="icon-content">RC</div>
+                    <div class="icon-tooltip">Recherche</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 330deg;" data-target="roadmap" data-theme="Roadmap">
+                    <div class="icon-content">RM</div>
+                    <div class="icon-tooltip">Roadmap</div>
+                </div>
+                
+                <!-- Groupe 7: Conclusion et Ressources (340-350 degrés) -->
+                <div class="circle-icon" style="--angle: 340deg;" data-target="conclusion" data-theme="Conclusion">
+                    <div class="icon-content">C</div>
+                    <div class="icon-tooltip">Conclusion</div>
+                </div>
+                
+                <div class="circle-icon" style="--angle: 350deg;" data-target="resources" data-theme="Ressources">
+                    <div class="icon-content">RS</div>
+                    <div class="icon-tooltip">Ressources</div>
                 </div>
             </div>
         </div>
-
         <!-- Slide 2: Introduction -->
         <div id="intro" class="step slide" data-x="1500" data-y="0" data-z="-1000" data-rotate-x="-30">
             <h2>Introduction & Objectifs</h2>
@@ -55,9 +244,9 @@
                     <h3 class="blue">Types de structures évaluées</h3>
                     <div class="card">
                         <ul>
-                            <li><strong>Texte (43%)</strong>: Paragraphes narratifs, descriptions, explications</li>
-                            <li><strong>Tableaux (32%)</strong>: Données structurées en lignes et colonnes</li>
-                            <li><strong>Graphiques (25%)</strong>: Visualisations de données avec légendes</li>
+                            <li><strong>Texte (43%)</strong></li>
+                            <li><strong>Tableaux (32%)</strong></li>
+                            <li><strong>Graphiques (25%)</strong></li>
                         </ul>
                     </div>
                 </div>
@@ -66,18 +255,12 @@
                     <h3 class="green">Questions clés</h3>
                     <div class="card">
                         <ul>
-                            <li><strong>Performance comparative</strong>: Sur quel type de structure le système excelle-t-il?</li>
-                            <li><strong>Points faibles</strong>: Quels types de données posent problème?</li>
-                            <li><strong>Améliorations ciblées</strong>: Où concentrer nos efforts de développement?</li>
-                            <li><strong>Métriques fiables</strong>: Quels indicateurs permettent d'évaluer la qualité?</li>
+                            <li><strong>Performance comparative</strong></li>
+                            <li><strong>Points faibles</strong></li>
+                            <li><strong>Améliorations ciblées</strong></li>
                         </ul>
                     </div>
                 </div>
-            </div>
-            
-            <div class="card info">
-                <h3><span class="badge">Démarche</span> Évaluation systématique</h3>
-                <p>Nous avons évalué le système sur <strong>100 questions</strong> réparties proportionnellement entre les différents types de structures, en utilisant des métriques standardisées pour garantir l'objectivité des résultats.</p>
             </div>
         </div>
 
@@ -94,96 +277,77 @@
                         <li><strong class="blue">Batch Processing</strong>: 100 questions</li>
                         <li><strong class="green">Gestion robuste</strong>: Reprise sur erreur</li>
                         <li><strong class="purple">Segmentation</strong>: Par type de structure</li>
-                        <li><strong class="orange">Métriques</strong>: BLEU, ROUGE, Exact Match</li>
                     </ul>
-                    
-                    <div class="code-block">
-                        <h5>Extrait de `batch_evaluation.py`</h5>
-                        <pre><code>def segment_results_by_structure_source(results):
-    """
-    Segmente les résultats d'évaluation par type 
-    de structure source (text, table, graph)
-    """
-    segmented_results = {
-        "text": {"detailed_results": [], "avg_metrics": {}},
-        "table": {"detailed_results": [], "avg_metrics": {}},
-        "graph": {"detailed_results": [], "avg_metrics": {}},
-    }
-    
-    # Parcourir les résultats
-    for result in results["detailed_results"]:
-        structure_source = result.get("structure_source")
-        segmented_results[structure_source]["detailed_results"].append(result)
-        </code></pre>
-                    </div>
                 </div>
                 
                 <div>
                     <h3>Flux d'évaluation</h3>
                     <div id="evaluation-flow-chart" class="chart-container"></div>
-                    
-                    <h3>Métriques d'évaluation</h3>
-                    <div class="card">
-                        <ul class="compact">
-                            <li><strong>BLEU</strong>: Précision lexicale</li>
-                            <li><strong>ROUGE</strong>: Couverture informations</li>
-                            <li><strong>Exact Match</strong>: Correspondance faits</li>
-                            <li><strong>Relevancy</strong>: Pertinence réponse</li>
-                            <li><strong>Overall</strong>: Score global</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: Results -->
-        <div id="results" class="step slide" data-x="-1500" data-y="800" data-z="-200" data-rotate-y="-45">
-            <h2>Résultats de l'évaluation</h2>
+        <!-- Slide 4: Text Analysis -->
+        <div id="text-analysis" class="step slide" data-x="-1000" data-y="1200" data-z="-100" data-rotate-y="-60">
+            <h2>Analyse du Texte</h2>
             
             <div class="card primary">
-                <h3>Synthèse des performances par type de structure</h3>
-                <p>Notre système RAG présente des performances <strong>très variables</strong> selon le type de structure analysé.</p>
+                <h3>Performance sur le contenu textuel</h3>
+                <p>Le système RAG présente une <strong>forte performance</strong> sur les données textuelles structurées.</p>
             </div>
             
             <div class="grid-2">
                 <div>
-                    <h3 class="blue">Scores moyens par type de structure</h3>
+                    <h3 class="green">Forces principales</h3>
+                    <ul>
+                        <li>Extraction précise d'informations factuelle</li>
+                        <li>Cohérence des réponses générées</li>
+                        <li>Pertinence élevée (>80%)</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="red">Points d'amélioration</h3>
+                    <ul>
+                        <li>Sensibilité aux variations syntaxiques</li>
+                        <li>Précision lexicale (BLEU score)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Results -->
+        <div id="results" class="step slide" data-x="-1500" data-y="800" data-z="-200" data-rotate-y="-45">
+            <h2>Résultats de l'évaluation</h2>
+            
+            <div class="card primary">
+                <h3>Synthèse des performances</h3>
+                <p>Notre système RAG présente des performances <strong>variables</strong> selon le type de structure analysé.</p>
+            </div>
+            
+            <div class="grid-2">
+                <div>
+                    <h3 class="blue">Scores par type de structure</h3>
                     <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Structure</th>
-                                    <th>BLEU</th>
-                                    <th>ROUGE</th>
-                                    <th>Exact Match</th>
-                                    <th>Relevance</th>
-                                    <th>Overall</th>
+                                    <th>Score global</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="highlight-green">
                                     <td>Texte</td>
-                                    <td>0.473</td>
-                                    <td>0.752</td>
-                                    <td>0.703</td>
-                                    <td>0.830</td>
-                                    <td class="bold">0.702</td>
+                                    <td class="bold">70.2%</td>
                                 </tr>
                                 <tr class="highlight-red">
                                     <td>Tableaux</td>
-                                    <td>0.433</td>
-                                    <td>0.574</td>
-                                    <td>0.233</td>
-                                    <td>0.750</td>
-                                    <td class="bold">0.456</td>
+                                    <td class="bold">45.6%</td>
                                 </tr>
                                 <tr class="highlight-yellow">
                                     <td>Graphiques</td>
-                                    <td>0.403</td>
-                                    <td>0.585</td>
-                                    <td>0.420</td>
-                                    <td>0.774</td>
-                                    <td class="bold">0.540</td>
+                                    <td class="bold">54.0%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -191,25 +355,13 @@
                 </div>
                 
                 <div>
-                    <h3 class="green">Visualisation comparative</h3>
+                    <h3 class="green">Visualisation</h3>
                     <div id="results-chart" class="chart-container"></div>
-                </div>
-            </div>
-            
-            <div class="grid-3">
-                <div class="card highlight-green">
-                    <strong class="green">Texte :</strong> Performance satisfaisante dans toutes les métriques (>0.7 en moyenne)
-                </div>
-                <div class="card highlight-red">
-                    <strong class="red">Tableaux :</strong> Difficulté majeure, particulièrement pour l'Exact Match (0.233)
-                </div>
-                <div class="card highlight-yellow">
-                    <strong class="yellow">Graphiques :</strong> Performance intermédiaire, bonne pertinence (0.774) mais précision limitée
                 </div>
             </div>
         </div>
 
-        <!-- Slide 5: Detailed Analysis -->
+        <!-- Slide 6: Analysis -->
         <div id="analysis" class="step slide" data-x="-1000" data-y="-500" data-z="500" data-rotate-x="30">
             <h2>Analyse détaillée par type de structure</h2>
             
@@ -219,8 +371,6 @@
                     <ul class="compact">
                         <li>Forces : Relevance (0.830)</li>
                         <li>Point faible : BLEU (0.473)</li>
-                        <li>Écart-type : ±0.137</li>
-                        <li>Interprétation : Extraction précise</li>
                     </ul>
                 </div>
                 
@@ -229,8 +379,6 @@
                     <ul class="compact">
                         <li>Forces : Relevance (0.750)</li>
                         <li>Point faible : Exact Match (0.233)</li>
-                        <li>Écart-type : ±0.139</li>
-                        <li>Interprétation : Difficulté d'extraction</li>
                     </ul>
                 </div>
                 
@@ -239,87 +387,31 @@
                     <ul class="compact">
                         <li>Forces : Relevance (0.774)</li>
                         <li>Point faible : BLEU (0.403)</li>
-                        <li>Écart-type : ±0.085</li>
-                        <li>Interprétation : Compréhension générale</li>
                     </ul>
                 </div>
-            </div>
-            
-            <h3 class="blue">Comparaison des performances par métrique</h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Métrique</th>
-                            <th class="green">Texte</th>
-                            <th class="red">Tableaux</th>
-                            <th class="yellow">Graphiques</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>BLEU</td>
-                            <td class="highlight-green">0.473</td>
-                            <td class="highlight-red">0.433</td>
-                            <td class="highlight-yellow">0.403</td>
-                        </tr>
-                        <tr>
-                            <td>ROUGE</td>
-                            <td class="highlight-green">0.752</td>
-                            <td class="highlight-red">0.574</td>
-                            <td class="highlight-yellow">0.585</td>
-                        </tr>
-                        <tr>
-                            <td>Exact Match</td>
-                            <td class="highlight-green">0.703</td>
-                            <td class="highlight-red">0.233</td>
-                            <td class="highlight-yellow">0.420</td>
-                        </tr>
-                        <tr>
-                            <td>Relevance</td>
-                            <td class="highlight-green">0.830</td>
-                            <td class="highlight-red">0.750</td>
-                            <td class="highlight-yellow">0.774</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             
             <div id="metrics-radar-chart" class="chart-container"></div>
         </div>
 
-        <!-- Slide 6: Vectorization Process -->
+        <!-- Slide 7: Vectorization -->
         <div id="vectorization" class="step slide" data-x="500" data-y="-800" data-z="300" data-rotate-x="-20">
             <h2>Processus de Vectorisation Multimodale</h2>
             
             <div class="grid-2">
                 <div>
-                    <h3>Architecture de vectorisation multimodale</h3>
+                    <h3>Architecture de vectorisation</h3>
                     
                     <div class="card info">
-                        <p>Notre système utilise <strong class="blue">Gemini (embedding-001)</strong> avec un pipeline adaptatif selon le type de contenu pour maximiser la qualité des embeddings.</p>
+                        <p>Notre système utilise <strong class="blue">Gemini (embedding-001)</strong> avec un pipeline adaptatif selon le type de contenu.</p>
                     </div>
                     
                     <h4 class="purple">Extraction intelligente par type</h4>
                     <div class="card">
                         <ul class="compact">
-                            <li><strong class="orange">Texte</strong>: PyMuPDF avec détection de sections</li>
-                            <li><strong class="green">Tableaux</strong>: Camelot avec préservation structurelle</li>
-                            <li><strong class="blue">Images</strong>: Extraction avec analyse des légendes</li>
-                        </ul>
-                    </div>
-                    
-                    <h4 class="green">Chunking sémantique adaptatif</h4>
-                    <div class="card">
-                        <ul class="compact">
-                            <li>Détection de frontières naturelles</li>
-                            <li>Tailles adaptatives selon le contenu:
-                                <ul>
-                                    <li>Texte: <span class="orange">250 tokens</span></li>
-                                    <li>Tableaux: <span class="green">350 tokens</span></li>
-                                    <li>Légendes: <span class="blue">100 tokens</span></li>
-                                </ul>
-                            </li>
+                            <li><strong class="orange">Texte</strong>: Détection de sections</li>
+                            <li><strong class="green">Tableaux</strong>: Préservation structurelle</li>
+                            <li><strong class="blue">Images</strong>: Analyse des légendes</li>
                         </ul>
                     </div>
                 </div>
@@ -327,52 +419,17 @@
                 <div>
                     <h3>Pipeline de traitement</h3>
                     <div id="pipeline-flowchart" class="chart-container"></div>
-                    
-                    <div class="code-block">
-                        <h5>Extrait du code de vectorisation</h5>
-                        <pre><code>def generate_embeddings(chunks, content_type):
-    """
-    Génère des embeddings différenciés selon le type de contenu
-    """
-    model = "models/embedding-001"  # Gemini embedding
-    
-    # Paramètres adaptés selon le type de contenu
-    params = {
-        "text": {"dimension": 768, "task_type": "retrieval_document"},
-        "table": {"dimension": 1024, "task_type": "retrieval_document", 
-                  "structural_info": True},
-        "image_caption": {"dimension": 512, "task_type": "retrieval_query", 
-                          "visual_context": True}
-    }
-    
-    # Application des paramètres adaptés au type de contenu
-    embeddings = []
-    for chunk in chunks:
-        embedding = embedding_model.embed_content(
-            model=model,
-            content=chunk.content,
-            **params[content_type]
-        )
-        embeddings.append({
-            "id": chunk.id,
-            "content_type": content_type,
-            "embedding": embedding,
-            "metadata": chunk.metadata
-        })
-    
-    return embeddings</code></pre>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 7: Benefits -->
+        <!-- Slide 8: Benefits -->
         <div id="benefits" class="step slide" data-x="1200" data-y="-600" data-z="100" data-rotate-y="20">
             <h2>Bénéfices pour la recherche sémantique</h2>
             
             <div class="card primary">
-                <h3>Amélioration des performances de recherche</h3>
-                <p>Notre approche de vectorisation multimodale offre des <strong>bénéfices significatifs</strong> pour la qualité des résultats de recherche sémantique.</p>
+                <h3>Amélioration des performances</h3>
+                <p>Notre approche de vectorisation multimodale offre des <strong>bénéfices significatifs</strong> pour la recherche sémantique.</p>
             </div>
             
             <div class="grid-2">
@@ -380,60 +437,21 @@
                     <h3 class="blue">Avantages techniques</h3>
                     <div class="card">
                         <ul>
-                            <li><strong class="purple">Préservation contextuelle</strong>: Maintien des relations entre texte, tableaux et images</li>
-                            <li><strong class="green">Précision accrue</strong>: Meilleure extraction des informations numériques dans les tableaux (+63%)</li>
-                            <li><strong class="blue">Richesse sémantique</strong>: Capture des nuances dans les graphiques et visualisations</li>
-                            <li><strong class="orange">Flexibilité</strong>: Adaptation automatique aux différents types de documents</li>
+                            <li><strong class="purple">Préservation contextuelle</strong></li>
+                            <li><strong class="green">Précision accrue</strong> (+63%)</li>
+                            <li><strong class="blue">Richesse sémantique</strong></li>
                         </ul>
                     </div>
                 </div>
                 
                 <div>
-                    <h3 class="green">Impact sur les métriques RAG</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Métrique</th>
-                                    <th>Standard</th>
-                                    <th>Multimodal</th>
-                                    <th>Gain</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Pertinence</td>
-                                    <td>0.65</td>
-                                    <td class="highlight-green">0.83</td>
-                                    <td class="green">+28%</td>
-                                </tr>
-                                <tr>
-                                    <td>Précision tableau</td>
-                                    <td>0.23</td>
-                                    <td class="highlight-green">0.61</td>
-                                    <td class="green">+165%</td>
-                                </tr>
-                                <tr>
-                                    <td>Compréhension graph.</td>
-                                    <td>0.54</td>
-                                    <td class="highlight-green">0.75</td>
-                                    <td class="green">+39%</td>
-                                </tr>
-                                <tr>
-                                    <td>Performance glob.</td>
-                                    <td>0.47</td>
-                                    <td class="highlight-green">0.73</td>
-                                    <td class="green">+55%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <h3 class="green">Impact sur les métriques</h3>
                     <div id="gain-chart" class="chart-container"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: Conclusion -->
+        <!-- Slide 9: Conclusion -->
         <div id="conclusion" class="step slide" data-x="0" data-y="0" data-z="-3000" data-rotate-x="0" data-rotate-y="0" data-scale="1">
             <h2>Conclusion</h2>
             <div class="subtitle orange">Vers un système RAG polyvalent</div>
@@ -457,28 +475,18 @@
                     <p>Intermédiaire (54.0%)</p>
                 </div>
             </div>
-            
-            <div class="card">
-                <h3>Points clés à retenir</h3>
-                <ul>
-                    <li><strong>Évaluation :</strong> Méthodologie robuste avec métriques multiples</li>
-                    <li><strong>Diagnostic :</strong> Forces et faiblesses identifiées par structure</li>
-                    <li><strong>Plan d'action :</strong> Priorités établies avec calendrier réaliste</li>
-                </ul>
-            </div>
         </div>
 
-        <!-- Slide 9: Resources -->
+        <!-- Slide 10: Resources -->
         <div id="resources" class="step slide" data-x="2000" data-y="1000" data-z="-500" data-rotate-y="-90">
             <h2>Ressources et Liens</h2>
-            <div class="orange">Accès aux documents et au code source</div>
             
             <div class="grid-2">
                 <div>
                     <h3>Documentation</h3>
                     <ul>
-                        <li><a href="#" class="link">📄 Accéder aux documents d'évaluation</a></li>
-                        <li><a href="#" class="link">📊 Visualisations et graphiques détaillés</a></li>
+                        <li><a href="#" class="link">📄 Documents d'évaluation</a></li>
+                        <li><a href="#" class="link">📊 Visualisations détaillées</a></li>
                     </ul>
                 </div>
                 
@@ -486,7 +494,7 @@
                     <h3>Code source</h3>
                     <ul>
                         <li><a href="#" class="link">🧪 Programme d'évaluation</a></li>
-                        <li><a href="#" class="link">💻 Code complet sur GitHub</a></li>
+                        <li><a href="#" class="link">💻 Code sur GitHub</a></li>
                     </ul>
                     
                     <div class="author-info">
@@ -497,7 +505,7 @@
             </div>
         </div>
 
-        <!-- Return to Overview (with zooming effect back to rings) -->
+        <!-- Return to Overview -->
         <div id="return-overview" class="step" data-x="0" data-y="0" data-scale="10">
             <!-- Empty div for returning to overview -->
         </div>
@@ -509,6 +517,42 @@
         <button id="overview-btn" title="Vue d'ensemble"><span>⚙</span></button>
     </div>
 
+    <!-- Chargement des scripts dans le bon ordre -->
+    <script>
+        // Variable pour suivre le chargement des scripts
+        window.scriptStatus = {
+            impressJsLoaded: false,
+            d3Loaded: typeof d3 !== 'undefined'
+        };
+        
+        // Fonction pour masquer l'indicateur de chargement
+        function hideLoading() {
+            if (window.scriptStatus.impressJsLoaded && window.scriptStatus.d3Loaded) {
+                setTimeout(function() {
+                    const loadingElement = document.getElementById('loading');
+                    if (loadingElement) {
+                        loadingElement.style.opacity = '0';
+                        loadingElement.style.transition = 'opacity 0.5s ease';
+                        setTimeout(function() {
+                            loadingElement.style.display = 'none';
+                        }, 500);
+                    }
+                }, 500);
+            }
+        }
+        
+        // Fonction appelée quand impress.js est chargé
+        function onImpressJsLoaded() {
+            window.scriptStatus.impressJsLoaded = true;
+            console.log("impress.js chargé avec succès");
+            hideLoading();
+        }
+    </script>
+    
+    <!-- Impress.js avec callback -->
+    <script src="https://cdn.jsdelivr.net/gh/impress/impress.js@2.0.0/js/impress.js" onload="onImpressJsLoaded()"></script>
+    
+    <!-- Scripts de l'application -->
     <script src="js/presentation.js"></script>
     <script src="js/charts.js"></script>
 </body>

@@ -9,11 +9,9 @@ body {
     font-family: 'Montserrat', sans-serif;
     line-height: 1.6;
     overflow: hidden;
-    transition: background-color 0.5s ease;
-}
-
-body.dark-theme {
-    background-color: #121212;
+    background-color: #000;
+    background-image: radial-gradient(rgba(50, 50, 50, 0.3) 1px, transparent 1px);
+    background-size: 15px 15px;
     color: #f5f5f5;
 }
 
@@ -30,11 +28,11 @@ body.dark-theme {
 .step {
     width: 1000px;
     padding: 40px;
-    background-color: rgba(18, 18, 18, 0.9);
+    background-color: rgba(0, 0, 0, 0.85);
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     transition: opacity 0.5s ease;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .step.active {
@@ -43,160 +41,172 @@ body.dark-theme {
 
 /* Slide Content Styling */
 h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #f97316;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    color: #f5f5f5;
     text-align: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 h2 {
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    margin-bottom: 2rem;
     color: #f97316;
-    border-bottom: 2px solid #f97316;
-    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #f97316;
+    padding-bottom: 0.8rem;
+    text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
 }
 
 h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    color: #e2e2e2;
 }
 
 h4 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
 }
 
 p {
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
 }
 
 strong {
     font-weight: 700;
+    color: #fff;
 }
 
 ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1rem;
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 ul.compact {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
 }
 
 /* Grid Layouts */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
+    gap: 2rem;
+    margin: 2rem 0;
 }
 
 .grid-3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-    margin: 1rem 0;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
 }
 
 /* Cards */
 .card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    background-color: rgba(30, 30, 30, 0.7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .card.primary {
-    background-color: rgba(249, 115, 22, 0.1);
-    border: 1px solid rgba(249, 115, 22, 0.3);
+    background-color: rgba(249, 115, 22, 0.15);
+    border: 1px solid rgba(249, 115, 22, 0.4);
 }
 
 .card.info {
-    background-color: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    background-color: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.4);
 }
 
 .card.highlight-green {
-    background-color: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background-color: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
 .card.highlight-red {
-    background-color: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    background-color: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .card.highlight-yellow {
-    background-color: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background-color: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 /* Chart Containers */
 .chart-container {
     width: 100%;
-    height: 300px;
-    margin: 1rem 0;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+    height: 350px;
+    margin: 1.5rem 0;
+    background-color: rgba(30, 30, 30, 0.5);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Icons */
 .icon {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1rem auto;
-    font-size: 1.5rem;
+    margin: 0 auto 1.5rem auto;
+    font-size: 2rem;
     font-weight: bold;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .icon.green {
-    background-color: rgba(16, 185, 129, 0.2);
+    background-color: rgba(16, 185, 129, 0.3);
     color: #10b981;
 }
 
 .icon.red {
-    background-color: rgba(239, 68, 68, 0.2);
+    background-color: rgba(239, 68, 68, 0.3);
     color: #ef4444;
 }
 
 .icon.yellow {
-    background-color: rgba(245, 158, 11, 0.2);
+    background-color: rgba(245, 158, 11, 0.3);
     color: #f59e0b;
 }
 
 /* Tables */
 .table-container {
     overflow-x: auto;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
 }
 
 th, td {
-    padding: 0.5rem 0.75rem;
+    padding: 0.8rem 1rem;
     text-align: left;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 th {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(40, 40, 40, 0.6);
     font-weight: 600;
+    color: #f97316;
 }
 
 td.bold {
@@ -204,49 +214,50 @@ td.bold {
 }
 
 tr.highlight-green td {
-    background-color: rgba(16, 185, 129, 0.1);
+    background-color: rgba(16, 185, 129, 0.15);
 }
 
 tr.highlight-red td {
-    background-color: rgba(239, 68, 68, 0.1);
+    background-color: rgba(239, 68, 68, 0.15);
 }
 
 tr.highlight-yellow td {
-    background-color: rgba(245, 158, 11, 0.1);
+    background-color: rgba(245, 158, 11, 0.15);
 }
 
 td.highlight-green {
-    background-color: rgba(16, 185, 129, 0.1);
+    background-color: rgba(16, 185, 129, 0.15);
 }
 
 td.highlight-red {
-    background-color: rgba(239, 68, 68, 0.1);
+    background-color: rgba(239, 68, 68, 0.15);
 }
 
 td.highlight-yellow {
-    background-color: rgba(245, 158, 11, 0.1);
+    background-color: rgba(245, 158, 11, 0.15);
 }
 
 /* Code Blocks */
 .code-block {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 8px;
-    padding: 0.5rem;
-    margin: 1rem 0;
+    padding: 1rem;
+    margin: 1.5rem 0;
     max-height: 200px;
     overflow-y: auto;
+    font-size: 1.1rem;
 }
 
 .code-block h5 {
-    font-size: 0.8rem;
+    font-size: 1rem;
     margin-bottom: 0.5rem;
     color: #a3a3a3;
 }
 
 pre {
     font-family: 'Courier New', monospace;
-    font-size: 0.8rem;
-    line-height: 1.4;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: #e2e2e2;
 }
 
@@ -291,17 +302,18 @@ pre {
 .badge {
     background-color: #3b82f6;
     color: white;
-    padding: 0.2rem 0.5rem;
+    padding: 0.3rem 0.8rem;
     border-radius: 4px;
-    font-size: 0.8rem;
-    margin-right: 0.5rem;
+    font-size: 1rem;
+    margin-right: 0.8rem;
 }
 
 /* Subtitle */
 .subtitle {
-    font-size: 1.5rem;
+    font-size: 2rem;
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    color: #e2e2e2;
 }
 
 /* Date Display */
@@ -309,30 +321,31 @@ pre {
     display: inline-block;
     background-color: #f97316;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     border-radius: 6px;
     font-weight: 600;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    font-size: 1.4rem;
 }
 
 /* Navigation Controls */
 .controls {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 30px;
+    right: 30px;
     z-index: 1000;
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 .controls button {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background-color: rgba(18, 18, 18, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     border: 2px solid #f97316;
     color: #f97316;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -343,6 +356,7 @@ pre {
 .controls button:hover {
     background-color: #f97316;
     color: white;
+    transform: scale(1.1);
 }
 
 /* Progress Bar */
@@ -351,8 +365,8 @@ pre {
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
 
@@ -361,79 +375,93 @@ pre {
     background-color: #f97316;
     width: 0%;
     transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.7);
 }
 
 /* Author Info */
 .author-info {
     text-align: center;
     margin-top: 2rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
-/* Ring Structure Styles */
-.rings-container {
+/* Circle Container Structure - NOUVEL ÉLÉMENT */
+.circle-container {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px;
+    overflow: hidden;
 }
 
-.main-ring {
+/* Grand cercle principal */
+.main-circle {
     position: relative;
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 700px;
     border-radius: 50%;
-    border: 4px solid #f97316;
+    border: 12px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+    z-index: 1;
+}
+
+/* Contenu central du cercle */
+.circle-content {
+    width: 80%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(249, 115, 22, 0.1);
-    box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
-    transition: all 0.5s ease;
-}
-
-.sub-ring {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 2px solid;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1.1rem;
     text-align: center;
 }
 
-#text-ring {
-    border-color: #10b981;
-    background-color: rgba(16, 185, 129, 0.2);
-    color: #10b981;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+/* Style pour l'image centrale */
+#central-image {
+    width: 400px;
+    height: auto;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-#table-ring {
-    border-color: #ef4444;
-    background-color: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+/* Petits cercles/icônes positionnés sur le grand cercle */
+.circle-icon {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #000;
+    border: 3px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    /* Positionnement calculé via CSS custom properties */
+    transform: rotate(var(--angle)) translate(350px) rotate(calc(-1 * var(--angle)));
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-#graph-ring {
-    border-color: #f59e0b;
-    background-color: rgba(245, 158, 11, 0.2);
-    color: #f59e0b;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+.circle-icon:hover {
+    border-color: #f97316;
+    transform: rotate(var(--angle)) translate(350px) rotate(calc(-1 * var(--angle))) scale(1.2);
+    box-shadow: 0 0 15px #f97316;
+    z-index: 10;
 }
 
-.sub-ring:hover {
-    transform: scale(1.1);
+/* Contenu de l'icône */
+.icon-content {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Impress.js Specific Styles */
@@ -446,9 +474,198 @@ pre {
     opacity: 1;
 }
 
-/* CSS for enabling GPU acceleration */
-body {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000;
+/* Animation keyframes */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
 }
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    border: 6px solid rgba(249, 115, 22, 0.3);
+    border-radius: 50%;
+    border-top-color: #f97316;
+    animation: rotate 1.5s linear infinite;
+    margin: 0 auto 20px auto;
+}
+
+/* Styles pour les tooltips de sous-thèmes */
+.icon-tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+    font-weight: normal;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(249, 115, 22, 0.5);
+}
+
+/* Style pour l'icône active */
+.circle-icon.active-icon {
+    border-color: #f97316;
+    transform: rotate(var(--angle)) translate(350px) rotate(calc(-1 * var(--angle))) scale(1.2);
+    box-shadow: 0 0 15px #f97316;
+    z-index: 50;
+}
+
+/* Effet de pulsation pour icône active */
+@keyframes activeIconPulse {
+    0% { box-shadow: 0 0 10px rgba(249, 115, 22, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(249, 115, 22, 0.5); }
+}
+
+.circle-icon.active-icon {
+    animation: activeIconPulse 2s infinite;
+}
+
+/* Couleurs différentes pour les groupes de sous-thèmes */
+/* Groupe 1: Introduction et Fondamentaux (0-30 degrés) */
+.circle-icon[data-target^="intro"],
+.circle-icon[data-target^="objectives"],
+.circle-icon[data-target^="challenges"],
+.circle-icon[data-target^="methodology"] {
+    background-color: #000;
+    border-color: #f97316;
+}
+
+.circle-icon[data-target^="intro"] .icon-content,
+.circle-icon[data-target^="objectives"] .icon-content,
+.circle-icon[data-target^="challenges"] .icon-content,
+.circle-icon[data-target^="methodology"] .icon-content {
+    color: #f97316;
+}
+
+/* Groupe 2: Types de données (40-90 degrés) */
+.circle-icon[data-target^="text"],
+.circle-icon[data-target^="table"],
+.circle-icon[data-target^="graph"],
+.circle-icon[data-target^="image"],
+.circle-icon[data-target^="multimodal"],
+.circle-icon[data-target^="data"] {
+    background-color: #000;
+    border-color: #10b981;
+}
+
+.circle-icon[data-target^="text"] .icon-content,
+.circle-icon[data-target^="table"] .icon-content,
+.circle-icon[data-target^="graph"] .icon-content,
+.circle-icon[data-target^="image"] .icon-content,
+.circle-icon[data-target^="multimodal"] .icon-content,
+.circle-icon[data-target^="data"] .icon-content {
+    color: #10b981;
+}
+
+/* Groupe 3: Évaluation et Métriques (100-150 degrés) */
+.circle-icon[data-target^="metrics"],
+.circle-icon[data-target^="precision"],
+.circle-icon[data-target^="recall"],
+.circle-icon[data-target^="f1"],
+.circle-icon[data-target^="bleu"],
+.circle-icon[data-target^="rouge"] {
+    background-color: #000;
+    border-color: #3b82f6;
+}
+
+.circle-icon[data-target^="metrics"] .icon-content,
+.circle-icon[data-target^="precision"] .icon-content,
+.circle-icon[data-target^="recall"] .icon-content,
+.circle-icon[data-target^="f1"] .icon-content,
+.circle-icon[data-target^="bleu"] .icon-content,
+.circle-icon[data-target^="rouge"] .icon-content {
+    color: #3b82f6;
+}
+
+/* Groupe 4: Résultats et Analyse (160-210 degrés) */
+.circle-icon[data-target^="results"],
+.circle-icon[data-target^="comparison"],
+.circle-icon[data-target^="analysis"],
+.circle-icon[data-target^="insights"],
+.circle-icon[data-target^="strengths"],
+.circle-icon[data-target^="weaknesses"] {
+    background-color: #000;
+    border-color: #8b5cf6;
+}
+
+.circle-icon[data-target^="results"] .icon-content,
+.circle-icon[data-target^="comparison"] .icon-content,
+.circle-icon[data-target^="analysis"] .icon-content,
+.circle-icon[data-target^="insights"] .icon-content,
+.circle-icon[data-target^="strengths"] .icon-content,
+.circle-icon[data-target^="weaknesses"] .icon-content {
+    color: #8b5cf6;
+}
+
+/* Groupe 5: Architecture et Technique (220-270 degrés) */
+.circle-icon[data-target^="architecture"],
+.circle-icon[data-target^="vectorization"],
+.circle-icon[data-target^="embedding"],
+.circle-icon[data-target^="retrieval"],
+.circle-icon[data-target^="generation"],
+.circle-icon[data-target^="pipeline"] {
+    background-color: #000;
+    border-color: #ec4899;
+}
+
+.circle-icon[data-target^="architecture"] .icon-content,
+.circle-icon[data-target^="vectorization"] .icon-content,
+.circle-icon[data-target^="embedding"] .icon-content,
+.circle-icon[data-target^="retrieval"] .icon-content,
+.circle-icon[data-target^="generation"] .icon-content,
+.circle-icon[data-target^="pipeline"] .icon-content {
+    color: #ec4899;
+}
+
+/* Groupe 6: Améliorations et Perspectives (280-330 degrés) */
+.circle-icon[data-target^="benefits"],
+.circle-icon[data-target^="improvements"],
+.circle-icon[data-target^="solutions"],
+.circle-icon[data-target^="future"],
+.circle-icon[data-target^="research"],
+.circle-icon[data-target^="roadmap"] {
+    background-color: #000;
+    border-color: #f59e0b;
+}
+
+.circle-icon[data-target^="benefits"] .icon-content,
+.circle-icon[data-target^="improvements"] .icon-content,
+.circle-icon[data-target^="solutions"] .icon-content,
+.circle-icon[data-target^="future"] .icon-content,
+.circle-icon[data-target^="research"] .icon-content,
+.circle-icon[data-target^="roadmap"] .icon-content {
+    color: #f59e0b;
+}
+
+/* Groupe 7: Conclusion et Ressources (340-350 degrés) */
+.circle-icon[data-target^="conclusion"],
+.circle-icon[data-target^="resources"] {
+    background-color: #000;
+    border-color: #ef4444;
+}
+
+.circle-icon[data-target^="conclusion"] .icon-content,
+.circle-icon[data-target^="resources"] .icon-content {
+    color: #ef4444;
+}
+
